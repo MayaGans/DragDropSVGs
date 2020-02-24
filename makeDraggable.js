@@ -63,6 +63,8 @@ function makeDraggable(evt) {
       offset.x -= transform.matrix.e;
       offset.y -= transform.matrix.f;
 
+
+
       // using the class confied, set the boundaries of the svg movement
       confined = evt.target.classList.contains('confine');
       if (confined) {
@@ -97,5 +99,14 @@ function makeDraggable(evt) {
   // remove event target so we stop dragging once mouse released
   function endDrag(evt) {
     selectedElement = false;
+
+    var r1 = evt.target.getBoundingClientRect();
+    var r2 = document.getElementById('workspace').getBoundingClientRect()
+
+    if (r2.left < r1.right )  {
+      evt.target.classList.add('confine')
+    }
+    console.log("Blue Box class list: " + evt.target.classList)
+
   }
 }
