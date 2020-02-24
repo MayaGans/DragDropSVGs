@@ -1,6 +1,13 @@
 function makeDraggable(evt) {
+
+  // get the event target
   var svg = evt.target;
 
+  // bind eventlisteners to the svg the user is interacting with
+  // need three functions
+  // when drag started do X
+  // when dragging do Y
+  // when drag finished do Z
   svg.addEventListener('mousedown', startDrag);
   svg.addEventListener('mousemove', drag);
   svg.addEventListener('mouseup', endDrag);
@@ -14,13 +21,19 @@ function makeDraggable(evt) {
   var selectedElement, offset, transform,
     bbox, minX, maxX, minY, maxY, confined;
 
+  // create bounding box to confine the drag and drop area (to just the workspace),
+  // or like how blocks cannot be dragged inside the toolbox
   var boundaryX1 = 10.5;
   var boundaryX2 = 30;
   var boundaryY1 = 2.2;
   var boundaryY2 = 19.2;
 
+  // convert from screen coordinate system to SVG [a,b,c,d,e,f]
+  // this positions the corner of the rectangle where your mouse is
+  // so we need to use this to calculate the mouse offset in startDrag
   function getMousePosition(evt) {
     var CTM = svg.getScreenCTM();
+    // working on mobile consideration
     if (evt.touches) { evt = evt.touches[0]; }
     return {
       x: (evt.clientX - CTM.e) / CTM.a,
@@ -29,6 +42,8 @@ function makeDraggable(evt) {
   }
 
   function startDrag(evt) {
+    // if the event target svg is allowed to be dragged then set selected element to event target
+    // this means that svgs of class static cannot be draggeed
     if (evt.target.classList.contains('draggable')) {
       selectedElement = evt.target;
       offset = getMousePosition(evt);
@@ -48,6 +63,7 @@ function makeDraggable(evt) {
       offset.x -= transform.matrix.e;
       offset.y -= transform.matrix.f;
 
+      // using the class confied, set the boundaries of the svg movement
       confined = evt.target.classList.contains('confine');
       if (confined) {
         bbox = selectedElement.getBBox();
@@ -78,6 +94,7 @@ function makeDraggable(evt) {
     }
   }
 
+  // remove event target so we stop dragging once mouse released
   function endDrag(evt) {
     selectedElement = false;
   }

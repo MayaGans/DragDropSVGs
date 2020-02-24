@@ -1,0 +1,28 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="styles.css">
+  <script type="text/javascript" src="makeDraggable.js"></script>
+</head>
+
+<body>
+
+  <!-- on load we leverage our dragging function -->
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" onload="makeDraggable(evt)">
+
+    <!-- background bounding box -->
+    <rect x="0" y="0" width="30" height="20" fill="#eee" />
+
+    <!-- drag area -->
+    <rect x="10.5" y="2.2" width="19.5" height="17" fill="#bbb" />
+
+    <!-- class draggable == set cursor to move  -->
+    <rect class="draggable" fill="#007bff" x="4" y="11" width="2" height="6" />
+
+
+  </svg>
+
+</body>
+
+</html>
